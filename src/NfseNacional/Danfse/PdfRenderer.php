@@ -273,10 +273,9 @@ class PdfRenderer
     {
         $numero = trim((string) ($meta['numero'] ?? ''));
 
-        $pdf->SetTitle('DANFS-e' . ($numero !== '' ? ' ' . $numero : '') . ' — GK2 Cloud');
-        $pdf->SetAuthor('GK2 CLOUD LTDA');
+        $pdf->SetTitle('DANFS-e' . ($numero !== '' ? ' ' . $numero : ''));
         $pdf->SetSubject('Documento Auxiliar da NFS-e');
-        $pdf->SetCreator('WHMCS · GK2 Cloud');
+        $pdf->SetCreator('WHMCS · NFS-e Nacional');
 
         if (!empty($meta['chave'])) {
             $pdf->SetKeywords('NFS-e, DANFS-e, ' . $meta['chave']);
