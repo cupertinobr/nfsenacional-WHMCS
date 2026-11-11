@@ -8,9 +8,14 @@ qualquer código.
 
 ## Regras incontornáveis
 
-### 1. PHP 8.3+ obrigatório
+### 1. PHP 8.1 é o piso
 
-O módulo deve rodar em PHP 8.3+. Use recursos modernos:
+O módulo deve rodar em PHP 8.1+ (`composer.json`: `"php": ">=8.1"`). **Nada de
+recurso de 8.2 ou mais novo**: `readonly class`, constante de classe tipada
+(`const string X`), `#[\Override]`, tipos DNF, `true`/`false`/`null` como tipo
+isolado, `json_validate()`, `mb_str_pad()`, `Random\Randomizer`, `array_find()`.
+O PHPStan roda com `phpVersion: 80100` e o CI faz lint em 8.1 — ambos acusam.
+Dentro do 8.1, use recursos modernos:
 - `enum` (não constantes de classe)
 - `match` (não `switch`)
 - Constructor property promotion
@@ -172,7 +177,7 @@ composer audit       # Vulnerabilidades nas dependências
 | Proibido | Motivo |
 | --- | --- |
 | Acoplar `Domain/` a classes WHMCS (`Capsule`, `$_SESSION`) | Domínio deve ser testável isoladamente |
-| Usar `switch` quando `match` resolve | PHP 8.3+ exige recursos modernos |
+| Usar `switch` quando `match` resolve | `match` é PHP 8.0 e mais seguro (sem fall-through, comparação estrita) |
 | Criar subpastas por tipo de arquivo (`Controllers/`, `Models/`) | Organização é por responsabilidade |
 | Commit da pasta `vendor/` | `.gitignore` bloqueia; `composer.lock` garante reprodutibilidade |
 | Misturar produção e homologação em queries | Sempre filtrar por `AmbienteGuard` |

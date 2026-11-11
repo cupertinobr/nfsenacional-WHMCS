@@ -186,7 +186,7 @@ Para publicar uma nova versão:
 | --- | --- |
 | **Versionamento** | [SemVer](https://semver.org/) — `MAJOR.MINOR.PATCH` |
 | **Changelog** | [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/) — seções `Adicionado`, `Alterado`, `Corrigido`, `Removido` |
-| **PHP mínimo** | 8.3+ (produção); `composer.json` declara `>=8.1` por compatibilidade com WHMCS |
+| **PHP mínimo** | 8.1 (`composer.json` e `config.platform.php`); o CI roda 8.1 e 8.3 |
 | **Vendor** | Não commitado — `.gitignore` ignora `vendor/`; `composer.lock` é commitado |
 | **Release** | Automático no merge de PR para `main`; tag = versão do módulo |
 | **Nome do pacote** | `nfsenacional/` (sem sufixo `-WHMCS`) dentro do zip de release |
