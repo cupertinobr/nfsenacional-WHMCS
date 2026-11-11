@@ -1,5 +1,7 @@
 parameters:
   level: 5
+  # Piso do composer.json ("php": ">=8.1"): acusa função/sintaxe de 8.2+
+  phpVersion: 80100
   paths:
     - src/
   excludePaths:
@@ -17,8 +19,10 @@ parameters:
     - src/NfseNacional/Danfse/DanfsePdf.php
     - src/NfseNacional/Danfse/PdfRenderer.php
   ignoreErrors:
-    # Funções globais do WHMCS (logModuleCall, localAPI, logActivity)
+    # Funções globais do WHMCS. Só elas: um ignore genérico de function.notFound
+    # esconderia também função de PHP 8.2+ (json_validate etc.) — ver phpVersion
     - identifier: function.notFound
+      message: '#^Function (localAPI|logActivity|logModuleCall) not found\.#'
     # Classes WHMCS (Capsule) em Config/ e Domain/Service/
     - identifier: class.notFound
     # --- Falsos positivos conhecidos ---

@@ -13,8 +13,14 @@ permissions:
 
 jobs:
   validate:
-    name: PHP 8.3 — PHPStan + CS + Audit
+    name: PHP ${{ matrix.php }} — Lint + PHPStan + CS + Audit + Testes
     runs-on: ubuntu-latest
+
+    # 8.1 é o piso do composer.json; 8.3 é o que roda em produção
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.3']
 
     steps:
       - name: Checkout
@@ -23,18 +29,22 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: dom, openssl, zlib, curl, json, xml, zip
+          php-version: ${{ matrix.php }}
+          extensions: dom, openssl, zlib, curl, json, xml, zip, mbstring
 
       - name: Cache Composer
         uses: actions/cache@v4
         with:
           path: vendor
-          key: composer-${{ hashFiles('composer.lock') }}
-          restore-keys: composer-
+          key: composer-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ matrix.php }}-
 
       - name: Install dependencies
         run: composer install --no-interaction
+
+      # --- Sintaxe na versão da matriz (acusa recurso de PHP mais novo) ---
+      - name: PHP Lint
+        run: git ls-files -z '*.php' | xargs -0 -n1 php -l > /dev/null
 
       # --- Análise estática ---
       - name: PHPStan
@@ -47,3 +57,7 @@ jobs:
       # --- Auditoria de vulnerabilidades ---
       - name: Composer Audit
         run: composer audit
+
+      # --- Suítes do DANFS-e (sem WHMCS nem rede) ---
+      - name: Testes
+        run: tools/testes/rodar.sh

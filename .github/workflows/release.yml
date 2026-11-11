@@ -49,7 +49,7 @@ jobs:
         if: steps.check-tag.outputs.exists == 'false'
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.1'
           extensions: dom, openssl, zlib, curl, json, xml, zip
 
       # --- Composer install (raiz do repo = raiz do módulo) ---
@@ -141,7 +141,7 @@ jobs:
             ### Requisitos
 
             - WHMCS 8.x+
-            - PHP 8.3+ com extensões: dom, openssl, zlib, curl, json, xml, zip
+            - PHP 8.1+ com extensões: dom, openssl, zlib, curl, json, xml, zip
             - Certificado digital ICP-Brasil (A1 ou A3)
           files: nfsenacional-v${{ steps.version.outputs.version }}.zip
           generate_release_notes: false
